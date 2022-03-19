@@ -10,7 +10,8 @@ namespace kolko_i_krzyzyk
     {
         static void Main(string[] args)
         {
-            char[,] tab = new char[3,3];            
+            char[,] tab = new char[3,3];
+            int control = 0;
             for (int i = 0; i < tab.GetLength(0); i++)
             {
                 for (int j = 0; j < tab.GetLength(1); j++)
@@ -21,33 +22,64 @@ namespace kolko_i_krzyzyk
                 Console.WriteLine();
             }
             Console.WriteLine();
-            gierka:
-            Console.WriteLine("Wybierz X lub O");
-            string wybor = Console.ReadLine();
-            if (wybor == "x" | wybor == "X")
+            Console.WriteLine("Kto zaczyna? O/X");
+            char choice = ' ';
+            char secondChoice = ' ';
+            while (choice != 'X' & choice != 'O')
             {
-                Console.WriteLine("Wybierz wiersz i kolumnę w której chcesz umieścić swój X");
-                int wiersz = int.Parse(Console.ReadLine());
-                int kolumna = int.Parse(Console.ReadLine());
-                tab[wiersz, kolumna] = 'X';
-            }
-            else if (wybor == "o" | wybor == "O")
-            {
-                Console.WriteLine("Wybierz wiersz i kolumnę w której chcesz umieścić swój O");
-                int wiersz = int.Parse(Console.ReadLine());
-                int kolumna = int.Parse(Console.ReadLine());
-                tab[wiersz, kolumna] = 'O';
-            };
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
+                if (choice != ' ')
                 {
-                    Console.Write(tab[i, j] + " ");
+                    Console.WriteLine("Wpisałeś zły znak. Wybierz między O/X");
                 }
-                Console.WriteLine();
+                choice = char.Parse(Console.ReadLine());
+                secondChoice = ' ';
+                if (choice == 'X')
+                {
+                    secondChoice = 'O';
+                }
+                else if (choice == 'O')
+                {
+                    secondChoice = 'X';
+                }
             }
-            goto gierka;
-            Console.ReadKey();
+            while (true)
+            {
+                if (control % 2 == 0)
+                {
+                    Console.WriteLine("Wybierz wiersz i kolumnę w której chcesz umieścić swój {0}", choice);
+                    int wiersz = int.Parse(Console.ReadLine());
+                    int kolumna = int.Parse(Console.ReadLine());
+                    tab[wiersz - 1, kolumna - 1] = choice;
+                }
+                else if (control % 2 != 0)
+                {
+                    Console.WriteLine("Wybierz wiersz i kolumnę w której chcesz umieścić swój {0}", secondChoice);
+                    int wiersz = int.Parse(Console.ReadLine());
+                    int kolumna = int.Parse(Console.ReadLine());
+                    tab[wiersz - 1, kolumna - 1] = secondChoice;
+                };
+                Console.Clear();
+                for (int i = 0; i < tab.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tab.GetLength(1); j++)
+                    {
+                        Console.Write(tab[i, j] + " ");
+                    }
+                    Console.WriteLine();
+                }
+                control++;
+                for (int i = 0; i < tab.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tab.GetLength(1); j++)
+                    {
+                        if (tab[0,j] == tab[0,i])
+                        {
+                            break;
+                        }
+                    }
+                    Console.WriteLine();
+                }
+            }
         }
     }
 }
